@@ -9,11 +9,10 @@ const countryStateMap = {
   Canada: ['Ontario', 'Quebec', 'British Columbia'],
 };
 
-
 function Contact() {
+  const [states, setStates] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedState, setSelectedState] = useState('');
-  const [states, setStates] = useState([]);
   const [page, setpage] = useState(1);
 
   const nextpage = () => {
@@ -27,12 +26,21 @@ function Contact() {
     const country = event.target.value;
     setSelectedCountry(country);
     setStates(countryStateMap[country] || []);
+    setFormData((prevData) => ({
+      ...prevData,
+      Country: country,
+      State: '',
+    }));
     setSelectedState('');
   };
 
   const handleStateChange = (event) => {
     const state = event.target.value;
     setSelectedState(state);
+    setFormData((prevData) => ({
+      ...prevData,
+      State: state,
+    }));
   };
 
   const countryOptions = [
@@ -46,22 +54,23 @@ function Contact() {
     { value: '', label: 'Select State' },
     ...states.map((state) => ({ value: state, label: state })),
   ];
+
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    Mobile: "",
-    Email: "",
-    Address1: "",
-    Address2: "",
-    Landmark: "",
-    Country: "",
-    State: "",
-    City: "",
-    Pincode: ""
-  })
+    firstName: '',
+    lastName: '',
+    Mobile: '',
+    Email: '',
+    Address1: '',
+    Address2: '',
+    Landmark: '',
+    Country: '',
+    State: '',
+    City: '',
+    Pincode: '',
+  });
+  
   function handleOnChange(e) {
     const { name, value } = e.target;
-    console.log(name, value)
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -122,14 +131,8 @@ function Contact() {
                   Next
                 </button>
               </div>
-
             </div>
-
           )}
-
-        </form>
-
-        <form className="space-y-4 m-4">
           {page === 2 && (
             <div>
               <div className='mb-6'>
@@ -169,11 +172,9 @@ function Contact() {
                   <Select
                     options={countryOptions}
                     Style="light"
-
                     value={formData.Country}
                     onChange={handleCountryChange}
                     name="Country"
-
                   />
                 </div>
                 <div>
@@ -194,7 +195,6 @@ function Contact() {
                     onChange={handleOnChange}
                   />
                 </div>
-
                 <div>
                   <label>Pincode <span className='text-red-600'>*</span></label>
                   <Input type="text" placeholder="Enter Pincode..."
@@ -206,26 +206,24 @@ function Contact() {
               </div>
 
               <div className="flex items-center space-x-2 mt-2">
-                <input type="checkbox" className="border p-2 rounded-lg" />
+                <input type="checkbox" name="confirm" className="border p-2 rounded-lg"/>
                 <label>Billing address is same as shipping address</label>
               </div>
 
-              <div className='flex justify-start mt-5'>
-                <div className=''>
-                  <button
-                    type="button"
-                    onClick={prevpage}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-xl ">
-                    Previous
-                  </button>
-                </div>
-                <div className='ml-[900px]'>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-xl " >
-                    Continue
-                  </button>
-                </div>
+              <div className="flex justify-between mt-5">
+                <button
+                  type="button"
+                  onClick={prevpage}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-xl"
+                >
+                  Previous
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-xl"
+                >
+                  Continue
+                </button>
               </div>
             </div>
           )}
@@ -234,4 +232,5 @@ function Contact() {
     </div>
   );
 }
+
 export default Contact;
