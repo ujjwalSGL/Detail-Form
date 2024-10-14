@@ -21,7 +21,9 @@ function Contact() {
     }
   };
   const prevPage = () => {
-    setpage(page - 1);
+    if(page>1){
+      setpage(page - 1);
+    }
   };
   const handleCountryChange = (event) => {
     const country = event.target.value;
@@ -34,7 +36,6 @@ function Contact() {
     }));
     setSelectedState('');
   };
-
   const handleStateChange = (event) => {
     const state = event.target.value;
     setSelectedState(state);
